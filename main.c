@@ -161,7 +161,7 @@ int main(void) {
 		init_car();
         //init_linear_actuator();
                 adc_init();
-        //init_analog_input
+        //init_ADC
 
         /*unit testing.*/
         if(unit_tests_task()){ /*unit tests not pass. */

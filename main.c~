@@ -162,6 +162,7 @@ int main(void) {
         //init_linear_actuator();
                 adc_init();
         //init_analog_input
+
         /*unit testing.*/
         if(unit_tests_task()){ /*unit tests not pass. */
            GPIO_WriteBit(GPIOD,GPIO_Pin_14,SET); 
