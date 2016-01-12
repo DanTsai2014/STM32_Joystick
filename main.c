@@ -147,9 +147,27 @@ void vApplicationStackOverflowHook(xTaskHandle pxTask, signed char *pcTaskName) 
 		for(;;);
 }
 
+void Usart3_Printf(char *string){
+    while(*string){
+        /* send string to USART3 */
+        USART_SendData(USART3, (unsigned short int) *string++);
+
+        /* wait for sending string finished */
+        while (USART_GetFlagStatus(USART3, USART_FLAG_TC) == RESET);
+    }
+}
+
+u16 readADC1(u8 channel) {
+	 ADC_SoftwareStartConv(ADC1);//Start the conversion
+	 while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC));//Processing the conversion
+	 return ADC_GetConversionValue(ADC1); //Return the converted data
+}
+
 int main(void) {
 
 		uint8_t ret = pdFALSE;
+                int i;
+                char buff [] = "";
     /*init.*/
 		NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 		init_USART3(9600);
@@ -159,10 +177,16 @@ int main(void) {
 		init_LED();
 		//ultra_sound_init();
 		init_car();
-        //init_linear_actuator();
+                //init_linear_actuator();
                 adc_init();
-        //init_ADC
-
+                //init_ADC
+                
+                while (1)
+                {
+                   sprintf (buff, "ADC: %d \n", readADC1(16));
+                   Usart3_Printf(buff); // 傳送字串至 USART3
+                   for(i=0; i<30000000; i++); // 延遲
+                }
         /*unit testing.*/
         if(unit_tests_task()){ /*unit tests not pass. */
            GPIO_WriteBit(GPIOD,GPIO_Pin_14,SET); 

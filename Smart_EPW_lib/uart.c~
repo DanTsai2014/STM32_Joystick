@@ -60,8 +60,8 @@ void init_USART3(uint32_t baurate){
 		 * so that the USART3 can take over control of the 
 		 * pins
 		 */
-		GPIO_PinAFConfig(USART3_PORT, GPIO_PinSource10, GPIO_AF_USART3); //USART3, PB10 for TX
-		GPIO_PinAFConfig(USART3_PORT, GPIO_PinSource11, GPIO_AF_USART3); //USART3, PB11 for RX
+		GPIO_PinAFConfig(USART3_PORT, GPIO_PinSource10, GPIO_AF_USART3); 
+		GPIO_PinAFConfig(USART3_PORT, GPIO_PinSource11, GPIO_AF_USART3);
 
 		/* Now the USART_InitStruct is used to define the 
 		 * properties of USART3

@@ -147,6 +147,16 @@ void vApplicationStackOverflowHook(xTaskHandle pxTask, signed char *pcTaskName) 
 		for(;;);
 }
 
+void Usart3_Printf(char *string){
+    while(*string){
+        /* send string to USART3 */
+        USART_SendData(USART3, (unsigned short int) *string++);
+
+        /* wait for sending string finished */
+        while (USART_GetFlagStatus(USART3, USART_FLAG_TC) == RESET);
+    }
+}
+
 int main(void) {
 
 		uint8_t ret = pdFALSE;
@@ -159,9 +169,9 @@ int main(void) {
 		init_LED();
 		//ultra_sound_init();
 		init_car();
-        //init_linear_actuator();
+                //init_linear_actuator();
                 adc_init();
-        //init_analog_input
+                //init_ADC
 
         /*unit testing.*/
         if(unit_tests_task()){ /*unit tests not pass. */
