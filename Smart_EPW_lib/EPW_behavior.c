@@ -1,6 +1,5 @@
 #include "FreeRTOS.h"
 #include "timers.h"
-#include "stm32f4xx_gpio.h"
 #include "stm32f4xx_syscfg.h"
 #include "EPW_behavior.h"
 #include "ultrasound.h"
@@ -136,6 +135,29 @@ xTimerHandle carTimers;
 xTimerHandle PID_Timers;
 xTimerHandle Show_data_Timers;
 xTimerHandle Get_Motor_Timers;
+
+
+/*============================================================================*/
+/*============================================================================*
+ ** function : init_joystick
+ ** brief : initialize the joystick control pin set
+ **param : None
+ **retval : None
+ **============================================================================*/
+ /*============================================================================*/
+void init_Joystick(void){
+	GPIO_InitTypeDef GPIO_InitStruct;
+	/* Enable GPIO D clock. */
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+	GPIO_InitStruct.GPIO_Pin = JOYSTICK_X_AXIS_PIN|JOYSTICK_Y_AXIS_PIN;
+	GPIO_InitStruct.GPIO_Pin =  MOTOR_LEFT_PWM_PIN|MOTOR_RIGHT_PWM_PIN;
+	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF;
+	GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_100MHz;
+	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+	GPIO_Init( MOTOR_PWM_PORT, &GPIO_InitStruct );  
+	
+}
 
 /*============================================================================*/
 /*============================================================================*
@@ -510,6 +532,19 @@ void speeed_initialize(){
 /*============================================================================*/
 /*============================================================================*
  ** function : parse_EPW_motor_dir
+ ** brief : parse the EPW of motor direction from the uart siganl
+ ** param : DIR_cmd
+ ** retval :  None
+ **============================================================================*/
+/*============================================================================*/
+
+
+
+
+
+/*============================================================================*/
+/*============================================================================*
+ ** function : parse_EPW_motor_dir
  ** brief : parse the EPW of motor direction from the uart siganl,
             note, the motor_pwm_value  max is 255, even if 256, it's duty cycle is equal to 255.
  ** param : DIR_cmd
@@ -600,22 +635,22 @@ void parse_EPW_motor_dir(unsigned char DIR_cmd)
 		}
 }
 
-void PerformCommand(unsigned char group,unsigned char control_id, unsigned char value)
+void PerformCommand(unsigned char group,unsigned char control_id, unsigned char value) //bt_forward:turnOn=0;moveWheelchair='d';moveForward='f'
 {
 	static int actuator_pwm_value = 0;
    if(group == OUT_EPW_CMD){ /*0*/
 		switch ( control_id )
 		{
-		    case EPW_MOTOR_DIR:
+		    case EPW_MOTOR_DIR: //direction //moveWheelchair //EPW_MOTOR_DIR=100,equal to char 'd'
 		        parse_EPW_motor_dir(value);
 		        break;
-		    case EPW_MOTOR_PWM:
-		        motor_speed_value = value; /*0~10 scale*/
+		    case EPW_MOTOR_PWM: //speed //EPW_MOTOR_PWM=101,equal to char 'e' //sb_Speed:turnOn, setSpeed='e', speedValue
+		        motor_speed_value = value; /*0~10 scale*/ //can't find motor_speed_value
 		        break;
-		    case EPW_ACTUATOR_A :
+		    case EPW_ACTUATOR_A : //ACTUATOR_A
 		        set_linearActuator_A_cmd(value , actuator_pwm_value); /*the actuator of pwm_value is fixed, value is dir flag.*/
 		        break;
-		    case EPW_ACTUATOR_B :                
+		    case EPW_ACTUATOR_B : //ACTUATOR_B
 		        set_linearActuator_B_cmd(value , actuator_pwm_value); /*the actuator of pwm_value is fixed. value is dir flag.*/
 		        break;
 		    default:

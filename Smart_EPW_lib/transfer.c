@@ -37,8 +37,7 @@ void receive_task(void *p)
 
                         /*identifier the command's format, if yes, analyze the command list and perform it. */
                         if(receive_cmd_type->Identifier[0] =='c' && receive_cmd_type->Identifier[1] =='m' && receive_cmd_type->Identifier[2] =='d'){
-                            PerformCommand(receive_cmd_type->group,receive_cmd_type->control_id, receive_cmd_type->value);
-                            
+                            PerformCommand(receive_cmd_type->group,receive_cmd_type->control_id, receive_cmd_type->value); //forward:turnOn, moveWheelchair, moveForward
                         }
 
                         

@@ -10,11 +10,11 @@
 
 
 inline void InitPID (pid_struct *pid,float p,float i,float d) {
-	pid->Kp = p;	
+	  pid->Kp = p;	
     pid->Ki = i;	
     pid->Kd = d;
-	pid->err = 0.0f;	
-	pid->last_err = 0.0f;	
+  	pid->err = 0.0f;	
+	  pid->last_err = 0.0f;	
     pid->prev_err = 0.0f;
     pid->sum_err = 0.0f;
     pid->p_Term = 0.0f;
@@ -22,7 +22,7 @@ inline void InitPID (pid_struct *pid,float p,float i,float d) {
     pid->d_Term = 0.0f;
     pid->output = 0.0f;	    
     pid->out_max = 255.0f;
-    pid->out_min = 0.0f;
+    pid->out_min = 135.0f;
     
 }
 

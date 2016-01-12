@@ -32,17 +32,17 @@ extern void proc_cmd(char *cmd , uint32_t SpeedValue_left , uint32_t SpeedValue_
 
 /* EPW control issue */
 enum _EPW_Control_id {
-    EPW_MOTOR_DIR = 100, 
-    EPW_MOTOR_PWM,
-    EPW_ACTUATOR_A,
-    EPW_ACTUATOR_B,
-    EPW_PID_ALG_KP,
-    EPW_PID_ALG_KI,
-    EPW_PID_ALG_KD,
-    EPW_PID_ALG,
-    EPW_GPIO,
-    EPW_Servo_0,
-    EPW_Servo_1,
+    EPW_MOTOR_DIR = 100,  //equats to char 'd' 
+    EPW_MOTOR_PWM, //'e'
+    EPW_ACTUATOR_A, //'f'
+    EPW_ACTUATOR_B, //'g'
+    EPW_PID_ALG_KP, //'h'
+    EPW_PID_ALG_KI, //'i'
+    EPW_PID_ALG_KD, //'j'
+    EPW_PID_ALG, //'k'
+    EPW_GPIO, //'l'
+    EPW_Servo_0, //'m'
+    EPW_Servo_1, //'n'
 };
 typedef enum _EPW_Control_id EPW_Control_id;
 
