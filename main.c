@@ -183,9 +183,9 @@ int main(void) {
                 
                 while (1)
                 {
-                   sprintf (buff, "ADC: %d \n", readADC1(16));
+                   sprintf (buff, "ADC: %d \n\r", readADC1(16));
                    Usart3_Printf(buff); // send string to USART3
-                   for(i=0; i<30000000; i++); // delay
+                   for(i=0; i<3000000; i++); // delay
                 }
         /*unit testing.*/
         if(unit_tests_task()){ /*unit tests not pass. */
