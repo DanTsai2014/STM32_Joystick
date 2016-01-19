@@ -83,10 +83,12 @@ void adc_init() {
 	GPIO_InitTypeDef GPIO_initStructre; //Structure for analog input pin
 	//Clock configuration
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE); //The ADC1 is connected the APB2 peripheral bus thus we will use its clock source
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC2, ENABLE); //The ADC2 is connected the APB2 peripheral bus thus we will use its clock source
 	RCC_AHB1PeriphClockCmd(RCC_AHB1ENR_GPIOCEN, ENABLE); //Clock for the ADC port!! Do not forget about this one ;)
 	//Analog pin configuration
 	GPIO_StructInit(&GPIO_initStructre);
 	GPIO_initStructre.GPIO_Pin = GPIO_Pin_0; //The channel 10 is connected to PC0
+	GPIO_initStructre.GPIO_Pin = GPIO_Pin_1; //The channel 11 is connected to PC1
 	GPIO_initStructre.GPIO_Mode = GPIO_Mode_AN; //The PC0 pin is configured in analog mode
 	GPIO_initStructre.GPIO_PuPd = GPIO_PuPd_NOPULL; //We don't need any pull up or pull down
 	GPIO_Init(GPIOC, &GPIO_initStructre); //Affecting the port with the initialization structure configuration
@@ -100,10 +102,13 @@ void adc_init() {
 	ADC_init_structure.ADC_NbrOfConversion = 1; //I think this one is clear :p
 	ADC_init_structure.ADC_ScanConvMode = DISABLE; //The scan is configured in one channel
 	ADC_Init(ADC1, &ADC_init_structure); //Initialize ADC with the previous configuration
+	ADC_Init(ADC2, &ADC_init_structure);
 	//Enable ADC conversion
 	ADC_Cmd(ADC1, ENABLE);
+	ADC_Cmd(ADC2, ENABLE);
 	//Select the channel to be read from
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_10, 1, ADC_SampleTime_144Cycles);
+	ADC_REgularChannelConfig(ADC2, ADC_Channel_11, 1, ADC_SampleTime_144Cycles);
 }
 
 
@@ -163,6 +168,12 @@ u16 readADC1(u8 channel) {
 	 return ADC_GetConversionValue(ADC1); //Return the converted data
 }
 
+u16 readADC2(u8 channel) {
+	ADC_SoftwareStartConv(ADC2);
+	while(!ADC_GetFlagStatus(ADC2, ADC_FLAG_EOC));
+	return ADC_GetConversionValue(ADC2);
+}
+
 int main(void) {
 
 		uint8_t ret = pdFALSE;
@@ -183,7 +194,7 @@ int main(void) {
                 
                 while (1)
                 {
-                   sprintf (buff, "ADC: %d \n\r", readADC1(16));
+                   sprintf (buff, "ADC_x: %d \n\r ADC_y: %d \n\r", readADC1(16), readADC2(16));
                    Usart3_Printf(buff); // send string to USART3
                    for(i=0; i<3000000; i++); // delay
                 }
