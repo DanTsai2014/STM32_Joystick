@@ -41,6 +41,7 @@
 #define JOYSTICK_PORT                                             GPIOC
 #define JOYSTICK_X_AXIS_PIN                                       GPIO_Pin_0
 #define JOYSTICK_Y_AXIS_PIN                                       GPIO_Pin_1
+ __IO uint16_t ADC1ConvertedVoltage[2];
 /*===============end of define  the all by pins========================*/
 
 #define CAR_POLLING_PERIOD  30//unit : ms
@@ -70,7 +71,7 @@ extern void init_car();
 extern void init_encoder(void);
 extern void init_External_Interrupt(void);
 extern void init_motor(void);
-extern void parse_EPW_motor_dir(unsigned char DIR_cmd);
+extern void parse_EPW_motor_dir(unsigned char DIR_cmd); 
 extern void PerformCommand(unsigned char group,unsigned char control_id, unsigned char value);
 
 extern void PID_Algorithm_Polling(void);

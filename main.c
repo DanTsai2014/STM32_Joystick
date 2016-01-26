@@ -37,7 +37,7 @@
 
 #define USE_FILELIB_STDIO_COMPAT_NAMES
 
- __IO uint16_t ADC1ConvertedVoltage[2];
+ //__IO uint16_t ADC1ConvertedVoltage[2];
  //unsigned int ADC1ConvertedVoltage;
 //#define ADC1->DR ((u32)0x40012400+0x4c)
 
@@ -81,8 +81,8 @@ void init_LED(void){
 		GPIO_WriteBit(GPIOD,GPIO_Pin_14,Bit_RESET);
 		GPIO_WriteBit(GPIOD,GPIO_Pin_15,Bit_RESET);
 }
-
-void adc1_init() {
+/*
+void init_ADC() {
 
 	ADC_InitTypeDef ADC_InitStructure; //Structure for adc configuration
     ADC_CommonInitTypeDef ADC_CommonInitStructure;
@@ -94,10 +94,10 @@ void adc1_init() {
 	RCC_AHB1PeriphClockCmd(RCC_AHB1ENR_GPIOCEN | RCC_AHB1Periph_DMA2, ENABLE); //Clock for the ADC port!! Do not forget about this one ;)
 	//Analog pin configuration
 	GPIO_StructInit(&GPIO_initStructre);
-	GPIO_initStructre.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1; //The channel 10 is connected to PC0; PC1 if multiple channels
+	GPIO_initStructre.GPIO_Pin = JOYSTICK_X_AXIS_PIN | JOYSTICK_Y_AXIS_PIN; //The channel 10 is connected to PC0; PC1 if multiple channels
 	GPIO_initStructre.GPIO_Mode = GPIO_Mode_AN; //The PC0 pin is configured in analog mode
 	GPIO_initStructre.GPIO_PuPd = GPIO_PuPd_NOPULL; //We don't need any pull up or pull down
-	GPIO_Init(GPIOC, &GPIO_initStructre); //Affecting the port with the initialization structure configuration
+	GPIO_Init(JOYSTICK_PORT, &GPIO_initStructre); //Affecting the port with the initialization structure configuration
 	//ADC structure configuration
 	//ADC_DeInit();
 	ADC_CommonInitStructure.ADC_Mode = ADC_Mode_Independent;
@@ -141,7 +141,7 @@ void adc1_init() {
     DMA_Cmd(DMA2_Stream4, ENABLE);
 	//Select the channel to be read from
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_10, 1, ADC_SampleTime_144Cycles); //// use channel 10 from ADC1, with sample time 144 cycles
-	ADC_RegularChannelConfig(ADC1, ADC_Channel_11, 2, ADC_SampleTime_144Cycles); //ADC1 multiple channels
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_11, 2, ADC_SampleTime_144Cycles); //ADC1 multiple channels (channel 11)
 	//Enable DMA request after last transfer (Single-ADC mode)
     ADC_DMARequestAfterLastTransferCmd(ADC1, ENABLE);
     //Enable using ADC_DMA
@@ -154,9 +154,9 @@ void adc1_init() {
     while(ADC_GetCalibrationStatus(ADC1));  
     ADC_SoftwareStartConvCmd(ADC1, ENABLE);  
     */
- 	/* 開始軟體轉換 */
+ 	//開始軟體轉換
     //ADC_SoftwareStartConv(ADC1);
-}
+//}
 /*
 void adc2_init() {
 
@@ -268,26 +268,26 @@ int main(void) {
 		//ultra_sound_init();
 		init_car();
                 //init_linear_actuator();
-                adc1_init();
+                init_ADC();
                 //adc2_init();
                  ADC_SoftwareStartConv(ADC1);
 
                 while (1)
                 {
-                   sprintf (buff_x, "ADC_x: %d\n\r", ADC1ConvertedVoltage[0]);
-                   Usart3_Printf(buff_x); // send string to USART3
-                   sprintf (buff_y, "ADC_y: %d\n\r", ADC1ConvertedVoltage[1]);
+                   sprintf (buff_x, "ADC_x: %d\n\r", ADC1ConvertedVoltage[0]); //channel 10
+                   //Usart3_Printf(buff_x); // send string to USART3
+                   sprintf (buff_y, "ADC_y: %d\n\r", ADC1ConvertedVoltage[1]); //channel 11
                    //sprintf (buff_y, "ADC_y: %d\n\r", readADC2(16));
                    //USART_SendData(USART3,ADC1ConvertedVoltage[0]); //ok dg. ComPort1.Read(Buffer,1);
                    //USART_SendData(USART3,ADC1ConvertedVoltage[1]); //ok dg. ComPort1.Read(Buffer,1);
 
                    //sprintf(buff_x, "ADC_x: %d\n\r", ADC1ConvertedVoltage[0]);
-                   Usart3_Printf(buff_y);
-                   //for(i=0; i<30000000; i++); //delay
                    //Usart3_Printf(buff_y);
+                   //for(i=0; i<30000000; i++); //delay
+                   Usart3_Printf(buff_y);
                    //sprintf(buf,"%d", ADC1ConvertedVoltage[0]);
                    //sprintf(buf,"%d", ADC1ConvertedVoltage[0]);
-                   for(i=0; i<30000000; i++); // delay
+                   for(i=0; i<3000000; i++); // delay
                 }
         /*unit testing.*/
         if(unit_tests_task()){ /*unit tests not pass. */
