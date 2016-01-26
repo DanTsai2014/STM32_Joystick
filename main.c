@@ -128,7 +128,7 @@ void adc1_init() {
     DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;//接收一次數據後，設備地址是否後移
     DMA_InitStructure.DMA_Mode  = DMA_Mode_Circular;//轉換模式，循環緩存模式，常用
     DMA_InitStructure.DMA_Priority = DMA_Priority_High;//DMA優先級，高
-    DMA_InitStructure.DMA_BufferSize = 2;//DMA緩存大小，1*16個
+    DMA_InitStructure.DMA_BufferSize = 2;//DMA緩存大小，1*2個
     DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Disable;
     DMA_InitStructure.DMA_FIFOThreshold = 0;
     DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;
