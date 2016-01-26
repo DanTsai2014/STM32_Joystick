@@ -274,20 +274,20 @@ int main(void) {
 
                 while (1)
                 {
-                   //sprintf (buff_x, "ADC_x: %d\n\r", ADC1ConvertedVoltage[0]);
+                   sprintf (buff_x, "ADC_x: %d\n\r", ADC1ConvertedVoltage[0]);
+                   Usart3_Printf(buff_x); // send string to USART3
                    sprintf (buff_y, "ADC_y: %d\n\r", ADC1ConvertedVoltage[1]);
                    //sprintf (buff_y, "ADC_y: %d\n\r", readADC2(16));
                    //USART_SendData(USART3,ADC1ConvertedVoltage[0]); //ok dg. ComPort1.Read(Buffer,1);
                    //USART_SendData(USART3,ADC1ConvertedVoltage[1]); //ok dg. ComPort1.Read(Buffer,1);
 
                    //sprintf(buff_x, "ADC_x: %d\n\r", ADC1ConvertedVoltage[0]);
-                   //Usart3_Printf(buff_x); // send string to USART3
                    Usart3_Printf(buff_y);
                    //for(i=0; i<30000000; i++); //delay
                    //Usart3_Printf(buff_y);
                    //sprintf(buf,"%d", ADC1ConvertedVoltage[0]);
                    //sprintf(buf,"%d", ADC1ConvertedVoltage[0]);
-                   for(i=0; i<3000000; i++); // delay
+                   for(i=0; i<30000000; i++); // delay
                 }
         /*unit testing.*/
         if(unit_tests_task()){ /*unit tests not pass. */
