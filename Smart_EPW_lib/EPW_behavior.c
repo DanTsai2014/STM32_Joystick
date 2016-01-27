@@ -604,7 +604,7 @@ void speeed_initialize(){
 
 void parse_Joystick_dir() //unsigned uint16_t Joystick_cmd
 {
-	if(ADC1ConvertedVoltage[1] > 2370){ //move forward
+	if(ADC1ConvertedVoltage[1] > 2360){ //move forward
 		if (data_sending != 1 && car_state == CAR_STATE_IDLE) // Do not control the wheelchair when sending data with usart!
 			{
 				controller_initialize(&n_r);
@@ -623,10 +623,10 @@ void parse_Joystick_dir() //unsigned uint16_t Joystick_cmd
 				car_state = CAR_STATE_MOVE_FORWARD;
 			}
 		}
-		else if(ADC1ConvertedVoltage[0] <= 2280 && ADC1ConvertedVoltage[0] >= 2220 && ADC1ConvertedVoltage[1] <= 2370 && ADC1ConvertedVoltage[1] >= 1930){  //stop
+		else if(ADC1ConvertedVoltage[0] <= 2280 && ADC1ConvertedVoltage[0] >= 2220 && ADC1ConvertedVoltage[1] <= 2360 && ADC1ConvertedVoltage[1] >= 2300){  //stop
 				car_state = CAR_STATE_STOPPING;
 		}
-		else if(data_sending != 1 && ADC1ConvertedVoltage[1] <1930){  //move back
+		else if(data_sending != 1 && ADC1ConvertedVoltage[1] <2300){  //move back
 			if(car_state == CAR_STATE_IDLE){
 				controller_initialize(&n_r_back);
 				controller_initialize(&n_l_back);
@@ -790,6 +790,7 @@ void PerformCommand(unsigned char group,unsigned char control_id, unsigned char 
 		{
 		    case EPW_MOTOR_DIR: //direction //moveWheelchair //EPW_MOTOR_DIR=100,equal to char 'd'
 		        parse_EPW_motor_dir(value);
+		        parse_Joystick_dir();
 		        break;
 		    case EPW_MOTOR_PWM: //speed //EPW_MOTOR_PWM=101,equal to char 'e' //sb_Speed:turnOn, setSpeed='e', speedValue
 		        motor_speed_value = value; /*0~10 scale*/ //can't find motor_speed_value
