@@ -595,7 +595,7 @@ void speeed_initialize(){
 
 void parse_Joystick_dir() //unsigned uint16_t Joystick_cmd
 {
-	if(ADC1ConvertedVoltage[1] >= 3000 && ADC1ConvertedVoltage[1] - 2240 > ADC1ConvertedVoltage[0] - 2240 && ADC1ConvertedVoltage[1] - 2240 > 2240 - ADC1ConvertedVoltage[0]){ //move forward
+	if(ADC1ConvertedVoltage[1] >= 3000 && ADC1ConvertedVoltage[1] - 2362 > ADC1ConvertedVoltage[0] - 2305 && ADC1ConvertedVoltage[1] - 2362 > 2305 - ADC1ConvertedVoltage[0]){ //move forward
 		if (data_sending != 1 && car_state == CAR_STATE_IDLE) // Do not control the wheelchair when sending data with usart!
 			{
 				controller_initialize(&n_r);
@@ -617,7 +617,7 @@ void parse_Joystick_dir() //unsigned uint16_t Joystick_cmd
 		else if(ADC1ConvertedVoltage[0] < 3000 && ADC1ConvertedVoltage[1] < 3000 && ADC1ConvertedVoltage[0] > 1500 && ADC1ConvertedVoltage[1] > 1500){  //stop
 				car_state = CAR_STATE_STOPPING;
 		}
-		else if(data_sending != 1 && ADC1ConvertedVoltage[1] <= 1500 && 2240 - ADC1ConvertedVoltage[1] > 2240 - ADC1ConvertedVoltage[0] && 2240 - ADC1ConvertedVoltage[1] > ADC1ConvertedVoltage[0] - 2240){  //move back
+		else if(data_sending != 1 && ADC1ConvertedVoltage[1] <= 1500 && 2362 - ADC1ConvertedVoltage[1] > 2305 - ADC1ConvertedVoltage[0] && 2362 - ADC1ConvertedVoltage[1] > ADC1ConvertedVoltage[0] - 2305){  //move back
 			if(car_state == CAR_STATE_IDLE){
 				controller_initialize(&n_r_back);
 				controller_initialize(&n_l_back);
@@ -635,7 +635,7 @@ void parse_Joystick_dir() //unsigned uint16_t Joystick_cmd
 				car_state = CAR_STATE_MOVE_BACK;
             }
 		}
-        else if(data_sending != 1 && ADC1ConvertedVoltage[0] >= 3000 && ADC1ConvertedVoltage[0] - 2240 > ADC1ConvertedVoltage[1] - 2240 && ADC1ConvertedVoltage[0] -2240 > 2240 - ADC1ConvertedVoltage[1]){  //move left
+        else if(data_sending != 1 && ADC1ConvertedVoltage[0] >= 3000 && ADC1ConvertedVoltage[0] - 2305 > ADC1ConvertedVoltage[1] - 2362 && ADC1ConvertedVoltage[0] -2305 > 2362 - ADC1ConvertedVoltage[1]){  //move left
         	if(car_state == CAR_STATE_IDLE){
 				controller_initialize(&n_r);
 				controller_initialize(&n_l_back);
@@ -654,7 +654,7 @@ void parse_Joystick_dir() //unsigned uint16_t Joystick_cmd
                 car_state = CAR_STATE_MOVE_LEFT;
             }
 		}
-        else if(data_sending != 1 && ADC1ConvertedVoltage[0] <= 1500 && 2240 - ADC1ConvertedVoltage[0] > 2240 - ADC1ConvertedVoltage[1] && 2240 - ADC1ConvertedVoltage[0] > ADC1ConvertedVoltage[1] - 2240){  //move right
+        else if(data_sending != 1 && ADC1ConvertedVoltage[0] <= 1500 && 2305 - ADC1ConvertedVoltage[0] > 2362 - ADC1ConvertedVoltage[1] && 2305 - ADC1ConvertedVoltage[0] > ADC1ConvertedVoltage[1] - 2362){  //move right
         	if(car_state == CAR_STATE_IDLE){
 				controller_initialize(&n_r_back);
 				controller_initialize(&n_l);
