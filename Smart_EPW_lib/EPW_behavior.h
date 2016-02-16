@@ -41,7 +41,9 @@
 #define JOYSTICK_PORT                                             GPIOC
 #define JOYSTICK_X_AXIS_PIN                                       GPIO_Pin_0
 #define JOYSTICK_Y_AXIS_PIN                                       GPIO_Pin_1
- __IO uint16_t ADC1ConvertedVoltage[2];
+//__IO uint16_t ADC1ConvertedVoltage[2];
+int16_t ADC1ConvertedVoltage[2];
+
 /*===============end of define  the all by pins========================*/
 
 #define CAR_POLLING_PERIOD  30//unit : ms
