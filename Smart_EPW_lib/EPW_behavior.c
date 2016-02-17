@@ -44,6 +44,8 @@ int path_counter = 0;    // path_record_p[path_counter]
 
 float move_speed = 10.0;
 
+int tremor_count = 0;
+
 neural_state_t n_r;
 neural_state_t n_l;
 neural_state_t n_r_back;
@@ -673,6 +675,15 @@ void parse_Joystick_dir() //unsigned uint16_t Joystick_cmd
                 car_state = CAR_STATE_MOVE_RIGHT;
             }
 		}
+		else if(((ADC1ConvertedVoltage[0] <= 2200 && ADC1ConvertedVoltage[0] >= 1975) || (ADC1ConvertedVoltage[0] >= 2350 && ADC1ConvertedVoltage[0] <= 2555)) || 
+	            ((ADC1ConvertedVoltage[1] <= 2335 && ADC1ConvertedVoltage[1] >= 2239) || (ADC1ConvertedVoltage[1] >= 2380 && ADC1ConvertedVoltage[1] <= 2480))){
+			tremor_count ++;
+		    if(tremor_count > 20){
+		    	char w;
+		    	USART_SendData(USARTy, w); //send a warning of tremor to android
+		    	tremor_count = 0;
+		    }
+		} 
 		else{
 		}
 }
